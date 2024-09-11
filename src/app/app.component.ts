@@ -14,9 +14,13 @@ import { StructureComponent } from './components/structure/structure.component';
 export class AppComponent {
   title = 'folder-structure';
   dir: any;
+  selectedFolder: any;
 
   onGetFileData(fileData: any): void {
     console.log('fileData', fileData)
     this.dir = fileData;
+    if (Object.keys(this.dir).length === 0) {
+      this.selectedFolder = null;
+    }
   }
 }

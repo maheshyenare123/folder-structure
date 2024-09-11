@@ -12,6 +12,7 @@ export class FileTableComponent {
   @Input() files: any; // Accept files input from parent
 
   getKeys(obj: any): string[] {
+    console.log('obj', obj);
     return Object.keys(obj);
   }
 

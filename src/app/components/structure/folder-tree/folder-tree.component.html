@@ -1,4 +1,4 @@
-<ul>
+<ul *ngIf="dir">
     <!-- Loop through each key in the directory object -->
     <ng-container *ngFor="let key of getKeys(dir)">
         <li>

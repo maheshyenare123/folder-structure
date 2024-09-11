@@ -13,7 +13,7 @@ import { FileTableComponent } from './file-table/file-table.component';
 
 export class StructureComponent {
   @Input() dir: any; // Take directory input from parent component
-  selectedFolder: any = null;
+  @Input() selectedFolder: any;
 
   // This method is called when a folder is selected from the folder tree
   onFolderSelected(folder: any): void {
