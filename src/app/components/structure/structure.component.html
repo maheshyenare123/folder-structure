@@ -1,0 +1,11 @@
+<div class="row">
+    <!-- Left Side: Folder Tree -->
+    <div class="col-md-4">
+        <app-folder-tree [dir]="dir" (folderSelected)="onFolderSelected($event)"></app-folder-tree>
+    </div>
+
+    <!-- Right Side: File Table -->
+    <div class="col-md-8">
+        <app-file-table [files]="selectedFolder"></app-file-table>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<ul>
+    <!-- Loop through each key in the directory object -->
+    <ng-container *ngFor="let key of getKeys(dir)">
+        <li>
+            <!-- If the current key is a directory -->
+            <ng-container *ngIf="isDirectory(dir[key]); else fileTemplate">
+                <!-- Directory Toggle -->
+                <span (click)="toggleDirectory(key);isExpanded(key) ? selectFolder(dir[key]) :selectFolder({})" style="cursor: pointer;">
+                    {{ isExpanded(key) ? '📂' : '📁' }} {{ key }}
+                </span>
+                <!-- Recursively render the subdirectory if expanded -->
+                <ul *ngIf="isExpanded(key)">
+                    <app-folder-tree [dir]="dir[key]" (folderSelected)="folderSelected.emit($event)"></app-folder-tree>
+                </ul>
+            </ng-container>
+
+            <!-- Template for files -->
+            <ng-template #fileTemplate>
+                <ng-container *ngIf="isFile(dir[key])">
+                    📄 {{ key }}
+                </ng-container>
+            </ng-template>
+        </li>
+    </ng-container>
+</ul>
