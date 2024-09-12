@@ -39,13 +39,74 @@ export class FolderTreeComponent {
   }
 
   selectFolder(folder: any): void {
-    // Check if the folder contains any items of type 'file'
-    // const hasFiles = Object.keys(folder).some(key => folder[key].type === 'file');
-
-    // if (hasFiles) {
-    this.folderSelected.emit(folder); // Emit folder if it contains files
-    // } else {
-    //   console.log('This folder does not contain any files');
-    // }
+    console.log('folder:', folder);
+    const result = this.collectData(folder);
+    console.log('Files:', result.files);
+    const result2 = this.processFileList(result.files)
+    console.log('Files:', result2);
+    const data = {
+      folder: folder,
+      fileList: result2,
+      
+    }
+    this.folderSelected.emit(data); // Emit folder if it contains files
   }
+
+  collectData(
+    data: any,
+    currentPath: string[] = [],
+    directories: string[] = [],
+    fileList: FileItem[] = []
+  ): { files: FileItem[] } {
+    let numberOfFiles = 0;
+
+    for (const key in data) {
+      const value = data[key];
+
+      if (typeof value === 'object' && value.type === 'file') {
+        // Add file information to fileList with its path
+        fileList.push({
+          name: key,
+          modification_date: value.modification_date,
+          hash: value.hash,
+          path: [...currentPath, key].join('/'),
+        });
+        numberOfFiles++;
+      } else if (typeof value === 'object' && value.type === 'directory') {
+        // Recurse into directories
+        this.collectData(value, [...currentPath, key], [...directories, key], fileList);
+      }
+    }
+    return { files: fileList };
+  }
+
+  processFileList(fileList: FileItem[]): FileItem[] {
+    const fileOccurrences = new Map<string, number>();
+
+    // Count occurrences of each file name
+    fileList.forEach(file => {
+      const key = file.name;
+      const count = (fileOccurrences.get(key) || 0) + 1;
+      fileOccurrences.set(key, count);
+    });
+
+    // Update occurrences in fileList
+    return fileList.map(file => ({
+      ...file,
+      occurrences: fileOccurrences.get(file.name)
+    }));
+  }
+}
+
+export interface FileItem {
+  name: string;
+  modification_date: string;
+  hash: string;
+  path: string;
+}
+
+export interface DirectoryItem {
+  name: string;
+  modification_date: string;
+  numberOfFiles: number;
 }

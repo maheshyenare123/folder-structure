@@ -25,3 +25,14 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## SSR
+Not use server side rendering
+
+## Upload file 
+Use third party module for upload file and also we drag and drop i.e. ngx-dropzone
+
+## Access data from file
+Use FileReader() for file data as string
+
+## 

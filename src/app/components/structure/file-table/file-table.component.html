@@ -1,4 +1,4 @@
-<table class="table table-striped table-hover">
+<!-- <table class="table table-striped table-hover">
     <thead class="thead-dark">
         <tr>
             <th>File Name</th>
@@ -18,6 +18,57 @@
     <tbody *ngIf="!files">
         <tr>
             <td colspan="3" class="text-center">No files available</td>
+        </tr>
+    </tbody>
+</table> -->
+
+<table class="table table-striped table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Occurrences</th>
+            <th>Modification Date</th>
+            <th>Path</th>
+        </tr>
+    </thead>
+    <tbody *ngIf="files">
+        <ng-container *ngFor="let data of files.fileList; let i = index">
+            <tr (click)="toggleRow(i);getFolderList(data.name)">
+                <td>{{ i+1 }}</td>
+                <td>{{ data.name }}</td>
+                <td>{{ data.occurrences }}</td>
+                <td>{{ data.modification_date }}</td>
+                <td>{{ data.path }}</td>
+            </tr>
+            <tr *ngIf="isExpanded(i)">
+                <td colspan="5" class="text-center">
+                    <table class="table table-nowrap mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Folder Name</th>
+                                <th>Date</th>
+                                <th>No of files (Other)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of foldersWithFileName; let j = index">
+                                <td>{{ j+1 }}</td>
+                                <td>{{data.folder}}</td>
+                                <td>{{data.modification_date}}</td>
+                                <td>{{data.file_count}}</td>
+                            </tr>
+                            <tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </ng-container>
+    </tbody>
+    <tbody *ngIf="!files">
+        <tr>
+            <td colspan="5" class="text-center">No files available</td>
         </tr>
     </tbody>
 </table>
