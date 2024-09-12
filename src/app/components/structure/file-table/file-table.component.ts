@@ -45,7 +45,14 @@ export class FileTableComponent implements OnChanges {
    * @param index 
    */
   toggleRow(index: number): void {
-    this.expanded[index] = !this.expanded[index];
+    if (this.expanded[index]) {
+      this.expanded[index] = false;
+    } else {
+      Object.keys(this.expanded).forEach(key => {
+        this.expanded[key] = false;
+      });
+      this.expanded[index] = !this.expanded[index];
+    }
   }
 
   /**
