@@ -13,30 +13,55 @@ export class FileTableComponent implements OnChanges {
   expanded: { [index: string]: boolean } = {}; // Track which row are expanded
   foldersWithFileName: any[] = [];
 
+  /**
+   * Initialize variable when input changes
+   * @param changes 
+   */
   ngOnChanges(changes: SimpleChanges): void {
     this.expanded = {};
     this.foldersWithFileName = [];
   }
 
+  /**
+   * Return keys from object
+   * @param obj 
+   * @returns 
+   */
   getKeys(obj: any): string[] {
     return Object.keys(obj);
   }
 
+  /**
+   * Check for object contain file type return boolean condition
+   * @param obj 
+   * @returns 
+   */
   isFile(obj: any): boolean {
     return obj.type === 'file';
   }
 
-  // Toggle the state of row expansion
+  /**
+   * Toggle the state of row expansion with help of index
+   * @param index 
+   */
   toggleRow(index: number): void {
     this.expanded[index] = !this.expanded[index];
   }
 
-  // get folder list by file name that file exist
+  /**
+   * Get folder list by file name that file exist in folder structure
+   * @param fileName 
+   */
   getFolderList(fileName: string) {
     this.foldersWithFileName = this.findFoldersWithFile(this.files.folder, fileName);
   }
 
-  // Function to recursively search for folders containing the file with the same name
+  /**
+   * Function to recursively search for folders containing the file with the same name and return folder list as result by giving parameter as repository and file name
+   * @param repository 
+   * @param fileName 
+   * @returns 
+   */
   findFoldersWithFile(repository: any, fileName: string) {
     const result: any[] = [];
     function traverse(directory: any, path: string) {
@@ -69,7 +94,11 @@ export class FileTableComponent implements OnChanges {
     return result;
   }
 
-  // Check if row is expanded
+  /**
+   * Check if row is expanded with help of index
+   * @param index 
+   * @returns 
+   */
   isExpanded(index: number): boolean {
     return this.expanded[index];
   }

@@ -16,6 +16,10 @@ export class AppComponent {
   dir: any;
   selectedFolder: any;
 
+  /**
+   * Get data from child component
+   * @param fileData 
+   */
   onGetFileData(fileData: any): void {
     this.dir = fileData;
     if (Object.keys(this.dir).length === 0) {

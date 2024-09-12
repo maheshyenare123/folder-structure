@@ -16,7 +16,10 @@ export class StructureComponent {
   @Input() selectedFolder: any;
 
 
-  // This method is called when a folder is selected from the folder tree
+  /**
+   * This method is called when a folder is selected from the folder tree
+   * @param folder 
+   */
   onFolderSelected(folder: any): void {
     this.selectedFolder = folder;
   }

@@ -13,7 +13,10 @@ export class FileUploadComponent {
   files: File[] = [];
   @Output() fileData = new EventEmitter<any>(); // Emit file data
 
-
+  /**
+   * Selected file fron there event and send file for extraacting data file
+   * @param event 
+   */
   onSelect(event: any): void {
     if (this.files.length === 0) {
       this.files.push(...event.addedFiles);
@@ -21,6 +24,10 @@ export class FileUploadComponent {
     }
   }
 
+  /**
+   * Extract data from file with parameter given as file
+   * @param file 
+   */
   extractFileData(file: File): void {
     const reader = new FileReader();
 
@@ -35,8 +42,12 @@ export class FileUploadComponent {
     reader.readAsText(file);
   }
 
+  /**
+   *  Remove file from files list with help of file
+   * @param file 
+   */
   onRemove(file: File) {
     this.files = this.files.filter(f => f !== file);
-    this.fileData.emit({});
+    this.fileData.emit({}); // when file remove emit empty object
   }
 }
