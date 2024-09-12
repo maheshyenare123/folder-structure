@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FolderTreeComponent } from './folder-tree/folder-tree.component';
 import { FileTableComponent } from './file-table/file-table.component';
 
@@ -14,6 +14,7 @@ import { FileTableComponent } from './file-table/file-table.component';
 export class StructureComponent {
   @Input() dir: any; // Take directory input from parent component
   @Input() selectedFolder: any;
+
 
   // This method is called when a folder is selected from the folder tree
   onFolderSelected(folder: any): void {

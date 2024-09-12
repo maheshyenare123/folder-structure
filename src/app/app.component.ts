@@ -17,10 +17,9 @@ export class AppComponent {
   selectedFolder: any;
 
   onGetFileData(fileData: any): void {
-    console.log('fileData', fileData)
     this.dir = fileData;
     if (Object.keys(this.dir).length === 0) {
-      this.selectedFolder = null;
+      this.selectedFolder = {};
     }
   }
 }

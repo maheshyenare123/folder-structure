@@ -15,7 +15,6 @@ export class FileUploadComponent {
 
 
   onSelect(event: any): void {
-    console.log(event);
     if (this.files.length === 0) {
       this.files.push(...event.addedFiles);
       this.extractFileData(this.files[0]);
@@ -28,7 +27,6 @@ export class FileUploadComponent {
     // Define the callback for when file reading is complete
     reader.onload = (event: any) => {
       const fileContent = event.target.result; // File content as a string
-      // console.log('File content:', fileContent);
       // You can further process fileContent here
       this.fileData.emit(JSON.parse(fileContent))
     };

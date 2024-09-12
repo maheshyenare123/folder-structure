@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-folder-tree',
@@ -8,10 +8,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   templateUrl: './folder-tree.component.html',
   styleUrl: './folder-tree.component.scss'
 })
-export class FolderTreeComponent {
+export class FolderTreeComponent implements OnChanges {
   @Input() dir: any; // Take directory input from parent component
   @Output() folderSelected = new EventEmitter<any>(); // Emit selected folder
   expanded: { [key: string]: boolean } = {}; // Track which directories are expanded
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.expanded = {};
+  }
+
 
   // Toggle the state of directory expansion
   toggleDirectory(key: string): void {
@@ -39,19 +44,28 @@ export class FolderTreeComponent {
   }
 
   selectFolder(folder: any): void {
-    console.log('folder:', folder);
     const result = this.collectData(folder);
-    console.log('Files:', result.files);
     const result2 = this.processFileList(result.files)
-    console.log('Files:', result2);
+    const result3 = this.filterFileList(result2);
+
+    // Case 1: All files
     const data = {
       folder: folder,
       fileList: result2,
-      
     }
+
+    // Case 2: filtered files
+    // const data = {
+    //   folder: folder,
+    //   fileList: result3,
+    // }
+
+    // Case 3: what inside directory
+    // const data = folder;
     this.folderSelected.emit(data); // Emit folder if it contains files
   }
 
+  // make file list according to the portion of directory access
   collectData(
     data: any,
     currentPath: string[] = [],
@@ -80,6 +94,7 @@ export class FolderTreeComponent {
     return { files: fileList };
   }
 
+  // find out the no of occurence for same file name
   processFileList(fileList: FileItem[]): FileItem[] {
     const fileOccurrences = new Map<string, number>();
 
@@ -95,6 +110,23 @@ export class FolderTreeComponent {
       ...file,
       occurrences: fileOccurrences.get(file.name)
     }));
+  }
+
+  // filter the file list according to file name.
+  filterFileList(fileItems: FileItem[]): FileItem[] {
+    const filteredFilesMap = fileItems.reduce((accumulator, currentFile) => {
+      const fileName = currentFile.name;
+
+      // Add the file to the map if it doesn't already exist
+      if (!accumulator.has(fileName)) {
+        accumulator.set(fileName, currentFile);
+      }
+
+      return accumulator;
+    }, new Map<string, FileItem>());
+
+    // Convert the map values back to an array
+    return Array.from(filteredFilesMap.values());
   }
 }
 

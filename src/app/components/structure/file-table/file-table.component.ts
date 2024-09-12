@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-file-table',
@@ -8,13 +8,17 @@ import { Component, Input } from '@angular/core';
   templateUrl: './file-table.component.html',
   styleUrl: './file-table.component.scss'
 })
-export class FileTableComponent {
+export class FileTableComponent implements OnChanges {
   @Input() files: any; // Accept files input from parent
   expanded: { [index: string]: boolean } = {}; // Track which row are expanded
   foldersWithFileName: any[] = [];
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.expanded = {};
+    this.foldersWithFileName = [];
+  }
+
   getKeys(obj: any): string[] {
-    console.log('obj', obj);
     return Object.keys(obj);
   }
 
@@ -29,10 +33,7 @@ export class FileTableComponent {
 
   // get folder list by file name that file exist
   getFolderList(fileName: string) {
-    console.log('fileName', fileName);
-    console.log('folder', this.files.folder)
     this.foldersWithFileName = this.findFoldersWithFile(this.files.folder, fileName);
-    console.log(this.foldersWithFileName);
   }
 
   // Function to recursively search for folders containing the file with the same name
