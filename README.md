@@ -48,9 +48,9 @@ show folder structure use concept of recursion to traverse the dictionary till f
 Same concept of recursion use to display table.
 
 ## Component used
-HeaderComponent
-FileUploadComponent
-StructureComponent - includes 2 Component = 
+1. HeaderComponent
+2. FileUploadComponent
+3. StructureComponent - includes 2 Component = 
 1. FolderTreeComponent for show folder structure.
 2. FileTableComponent for show inside data in table format.
 
